@@ -2,6 +2,7 @@ package com.example.projet_mobil;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Login extends AppCompatActivity {
+
+    public static final String EXTRA_CLIENTID = "extraClientid";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,25 +65,34 @@ public class Login extends AppCompatActivity {
     public void loginn(View view) {
         EditText Login=findViewById(R.id.login);
         EditText Pass=findViewById(R.id.passwd);
+       String login1;String Pass1;
+
 
         Log.d(Login.class.getSimpleName(), "we are in Loginn: ");
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET,
-                    "http://192.168.43.35/equitationMaroc(projetMobile).php?login="+Login+"&passwd="+Pass, null,
+                    "http://192.168.199.35/equitationMaroc(projetMobile).php?login="+Login.getText()+"&passwd="+Pass.getText(), null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             if (response.has("error"))
                             {
+
                                 Toast.makeText(Login.this,response.getString("error"),
                                         Toast.LENGTH_LONG).show();
                             }else {
                                 Log.d(Login.class.getSimpleName(), "u are logged");
+                                int clientId = Integer.parseInt(response.getJSONObject("user").getString("clientID"));
+                                Intent iHome = new Intent(getApplicationContext(), Home1Activity.class).putExtra(EXTRA_CLIENTID, clientId);
+                                startActivity(iHome);
+                                Log.d(Login.class.getSimpleName(),response.toString());
+                                finish();
                             }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.d(Login.class.getSimpleName(),response.toString());
+
                     }
                 }, new Response.ErrorListener() {
             @Override
