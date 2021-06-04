@@ -1,8 +1,11 @@
 package com.example.projet_mobil;
 
+import java.util.List;
+
 public class Seance {
     private String startDate;
     private int duration, isDone, id, clientID;
+
 
     public Seance() {
     }

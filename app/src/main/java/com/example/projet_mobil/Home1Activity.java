@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -20,13 +21,15 @@ import java.util.List;
 
 public class Home1Activity extends AppCompatActivity {
     private static final String TAG = "Home1Activity";
+    ListView seanceList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         int clientId = getIntent().getIntExtra(Login.EXTRA_CLIENTID, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home1);
+        seanceList = findViewById(R.id.seanceList);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                "http://192.168.199.35/seance.php?id=" + clientId, null,
+                "http://"+Login.ipAdresse+"/seance.php?id=" + clientId, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -34,7 +37,7 @@ public class Home1Activity extends AppCompatActivity {
                         List<Seance> seanses = new ArrayList<Seance>();
                         try {
                             JSONArray arraySeances = response.getJSONArray("Success");
-                            for(int i=0; i<response.length(); i++){
+                            for(int i=0; i<arraySeances.length(); i++){
                                 JSONObject s = (JSONObject) arraySeances.get(i);
                                 Seance seance = new Seance();
                                 seance.setStartDate(s.getString("startTime"));
@@ -46,8 +49,8 @@ public class Home1Activity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.i(TAG,"seance 1" + seanses.get(0).getStartDate());
-
+                        Log.i(TAG,"seance size" + seanses.size());
+                        seanceList.setAdapter(new SeanceAdapter(getApplicationContext(), seanses));
                     }
                 }, new Response.ErrorListener() {
             @Override

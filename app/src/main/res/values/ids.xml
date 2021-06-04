@@ -3,4 +3,10 @@
     <item name="login" type="id" />
     <item name="passwd" type="id" />
     <item name="imageView3" type="id" />
+    <item name="ListNotes" type="id" />
+    <item name="seancePic" type="id" />
+    <item name="startDate" type="id" />
+    <item name="startDateText" type="id" />
+    <item name="durationText" type="id" />
+    <item name="seanceList" type="id" />
 </resources>

@@ -18,9 +18,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Login extends AppCompatActivity {
+    public static String ipAdresse = "192.168.199.35";
 
     public static final String EXTRA_CLIENTID = "extraClientid";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +70,7 @@ public class Login extends AppCompatActivity {
 
         Log.d(Login.class.getSimpleName(), "we are in Loginn: ");
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET,
-                    "http://192.168.199.35/equitationMaroc(projetMobile).php?login="+Login.getText()+"&passwd="+Pass.getText(), null,
+                    "http://" + ipAdresse + "/equitationMaroc(projetMobile).php?login="+Login.getText()+"&passwd="+Pass.getText(), null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -97,7 +97,7 @@ public class Login extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(Login.class.getSimpleName(),"ERREUR"+error.getMessage());
+                Log.d(Login.class.getSimpleName(),"ERREUR"+error);
             }
         } );
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(req);
